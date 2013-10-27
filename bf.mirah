@@ -13,7 +13,7 @@ class BF
 
   def execute : void
     while (c = @reader.read) > 0
-      puts c
+      puts char(c)
     end
   end
 end
