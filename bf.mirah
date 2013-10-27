@@ -9,11 +9,21 @@ class BF
   end
   def initialize source: InputStream
     @reader = InputStreamReader.new source
+    @index = 0
+    @array = char[30_000]
   end
 
   def execute : void
     while (c = @reader.read) > 0
-      puts char(c)
+      cmd = char(c)
+      if cmd == ?>
+        @index += 1
+      elsif cmd == ?<
+        @index -= 1
+      else
+        puts cmd
+      end
     end
+    puts @index
   end
 end
