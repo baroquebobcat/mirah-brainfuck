@@ -9,3 +9,5 @@ task :test => :compile do
   sh "mirahc -c build -d build bf_test.mirah"
   sh "java -cp build BfTest"
 end
+
+task :default => :test

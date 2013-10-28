@@ -1,19 +1,27 @@
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
+def capture_stdout(block: Runnable): String
+  out = ByteArrayOutputStream.new
+  oldOut = System.out
+  System.setOut PrintStream.new out
+
+  block.run
+
+  System.setOut oldOut
+  String.new(out.toByteArray)
+end
+
 puts "running tests"
 
 # hello world no spaces
-out = ByteArrayOutputStream.new
+result = capture_stdout do
+  BF.eval "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>."
+end
 
-
-oldOut = System.out
-System.setOut PrintStream.new out
-BF.eval "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>."
-System.setOut oldOut
-result = String.new(out.toByteArray)
-if result.equals("hello world\n")
+expected = "Hello World!\n"
+if result.equals(expected)
   print '.'
 else
-  puts "Fail: expected #{result} to equal 'hello world\n'"
+  puts "Fail: expected #{result} to equal '#{expected}'"
 end
