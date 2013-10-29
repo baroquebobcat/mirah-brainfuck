@@ -12,16 +12,20 @@ def capture_stdout(block: Runnable): String
   String.new(out.toByteArray)
 end
 
+def assert_equals expected: String, actual: String
+  if actual.equals(expected)
+    print '.'
+  else
+    puts "Fail: expected #{actual} to equal '#{expected}'"
+  end
+end
+
 puts "running tests"
 
 # hello world no spaces
 result = capture_stdout do
   BF.eval "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>."
 end
+assert_equals "Hello World!\n", result
 
-expected = "Hello World!\n"
-if result.equals(expected)
-  print '.'
-else
-  puts "Fail: expected #{result} to equal '#{expected}'"
-end
+puts "done."
