@@ -32,7 +32,8 @@ assert_equals "Hello World!\n", result
 result = capture_stdout do
   oldIn = System.in
   System.setIn ByteArrayInputStream.new "brainfuckyeah".getBytes
-  BF.eval "-,+[                         Read first character and start outer character reading loop
+  BF.eval "
+-,+[                         Read first character and start outer character reading loop
     -[                       Skip forward if character is 0
         >>++++[>++++++++<-]  Set up divisor (32) for division loop
                                (MEMORY LAYOUT: dividend copy remainder divisor quotient zero zero)
@@ -65,5 +66,22 @@ end
 
 assert_equals "oenvashpxlrnu", result
 
+
+
+# swap
+result = capture_stdout do
+  BF.eval "++[>++++[>++++<-]<-]>>+     puts a '!' in position 2
+           <<                          back to position 0 
+           ++++++[>>>++++++<<<-]>>>
+                                    should be 0|0|!|$|etc with ptr at 3
+           <
+           .>.                      print !$
+           <                        at ptr 2
+           [->>+<<]>[-<+>]>[-<+>]   three cell swap
+           <<
+           .>.
+  "
+end
+assert_equals "!$$!", result
 
 puts "done."

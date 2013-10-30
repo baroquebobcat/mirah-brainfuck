@@ -12,6 +12,7 @@ class BF
     bf = BF.new StringBufferInputStream.new(str)
     bf.execute
   end
+
   def initialize source: InputStream
     @program = parse InputStreamReader.new source
     @jump_table = build_jump_table @program
@@ -24,7 +25,7 @@ class BF
   def execute : void
     while @instruction_index < @program.size
       instruction = @program[@instruction_index]
-      # puts "instr[#{@instruction_index}]: #{instruction} inx: #{@index} val-int: #{int(@array[@index])}"
+      # System.err.println "instr[#{@instruction_index}]: #{instruction} inx: #{@index} val-int: #{int(@array[@index])}"
       if instruction.equals :move_forward
         @index += 1
       elsif instruction.equals :move_back
@@ -50,7 +51,9 @@ class BF
       end
       @instruction_index+=1
     end
+    #debug_print
   end
+
   def parse(reader: Reader):List
     instructions = []
     while (c = reader.read) > 0
@@ -96,5 +99,30 @@ class BF
       index+=1
     end
     jump_table
+  end
+
+  def debug_print
+    System.err.print("\n")
+    print_index = 0
+    until (int(@array[print_index])==0 &&
+          int(@array[print_index+1])==0 &&
+          int(@array[print_index+3])==0 && 
+          int(@array[print_index+4])==0)
+      if int(@array[print_index]) < 10
+        System.err.print("  ")
+      elsif int(@array[print_index]) < 100
+        System.err.print(" ")
+      end
+      System.err.print(int(@array[print_index]))
+      System.err.print("|")
+      print_index+=1
+    end
+    System.err.print("\n")
+    print_index=0
+    until print_index == @index
+      System.err.print("   |")
+      print_index+=1
+    end
+    System.err.print("  ^|\n")
   end
 end
