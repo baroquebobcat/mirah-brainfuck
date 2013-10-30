@@ -3,7 +3,12 @@ BF - Mirah
 
 A brainfuck implementation in Mirah
 
-works w/ 0.1.2
+works w/ Mirah 0.1.2 (aka master)
 
-TODO
- - support nested []s 
+Right now it's a interpreter.
+
+
+References
+----------
+
+* http://en.wikipedia.org/wiki/Brainfuck
